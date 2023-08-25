@@ -1,15 +1,45 @@
 export function setupTable(element: HTMLDivElement, tableData: TableData) {
   element.innerHTML = `<div id="table-wrapper">
         <div id="filters">
-          <input placeholder="Search..."/>
-          <button>enter</button>
+          <input id="searchInput" placeholder="Search..."/>
+          <button id="searchBtn">enter</button>
         </div>
         <div id="table"></div>
     </div>`;
 
   const tableElement = document.getElementById("table");
+  const searchInput = document.getElementById(
+    "searchInput"
+  ) as HTMLInputElement;
+  const searchBtn = document.getElementById("searchBtn");
+  const tableRender = renderTable(tableElement!);
+  tableRender(tableData);
 
-  function renderTable(tableData: TableData) {
+  searchBtn?.addEventListener("click", () => {
+    const search = searchInput!.value.trim();
+    // Filter the rows based on the search input
+    const searchMatches = tableData.rows.filter((row) => {
+      // Check each column's value for a match
+      for (const columnName of tableData.columnNames) {
+        const cellValue = row.data[columnName.toLowerCase()];
+        if (cellValue.includes(search)) {
+          return true; // Include the row in the search results
+        }
+      }
+      return false; // Exclude the row from the search results
+    });
+
+    const filteredTableData: TableData = {
+      columnNames: tableData.columnNames,
+      rows: searchMatches,
+    };
+
+    tableRender(filteredTableData);
+  });
+}
+
+function renderTable(tableElement: HTMLElement) {
+  return (tableData: TableData) => {
     const columnStyle = `repeat(${tableData.columnNames.length}, 1fr)`;
     tableElement!.innerHTML = "";
 
@@ -41,7 +71,5 @@ export function setupTable(element: HTMLDivElement, tableData: TableData) {
 
       tableElement!.appendChild(row);
     });
-  }
-
-  renderTable(tableData);
+  };
 }

@@ -43,10 +43,28 @@ h1 {
   text-align: center;
 }
 
-/*.row {
+.table {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}*/
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.header-row {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+.header {
+  text-align: center;
+}
+
+.row {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
 
 button {
   border-radius: 8px;

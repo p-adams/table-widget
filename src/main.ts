@@ -2,7 +2,7 @@ import "./style.css";
 
 import { setupTable } from "./table.ts";
 
-const tableData: TableData = {
+const tableData: ConsumerTableData = {
   columnNames: ["A", "B", "C", "D"],
   rows: [
     { id: 0, data: "1" },
